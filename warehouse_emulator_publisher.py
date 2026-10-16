@@ -1,7 +1,6 @@
 import paho.mqtt.client as mqtt
 
 import time
-
 import parser as dg
 
 client = mqtt.Client()

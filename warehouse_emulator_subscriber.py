@@ -13,8 +13,8 @@ stats = {
     "alerts": 0,
     "avg": {}
 }
-logger = open("warehouse.log", "a", buffering=1)
-alerter = open("alerts.log", "a", buffering=1)
+logger = open("logs/warehouse.log", "a", buffering=1)
+alerter = open("logs/alerts.log", "a", buffering=1)
 
 threading.Timer(10.0, st.print_stat, args=(stats,)).start()
 
@@ -28,10 +28,11 @@ def on_message(client, userdata, msg):
 
     try:
         info = dg.pars_json_from_decoded_payload(msg.payload.decode())
-        logger.write(st.generate_stat(info, stats))
-        log.generate_log(info)
+
+        st.generate_stat(info, stats)
+        logger.write(log.generate_log(info))
         if  "alerts" in info:
-            alerter.write(st.generate_alert(info))
+            alerter.write(log.generate_alert(info))
         
     except Exception as e:
         print(f"exception: {e}")
